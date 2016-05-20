@@ -170,10 +170,12 @@ module.exports = function(grunt) {
                     baseUrl: './app/bower_components',
                     mainConfigFile: './app/scripts/common.js',
                     include: ['../scripts/tenacity'],
-                    name: 'almond/almond',
-                    out: 'dist/scripts/tenacity.js',
+                    exclude: ['jquery', 'backbone', 'underscore', 'moment', 'deepModel', 'ace'],
+                    // name: 'almond/almond',
+                    out: 'dist/tenacity.js',
                     findNestedDependencies: true,
-                    wrap: true
+                    wrap: true,
+                    optimize:'none'
                 }
             }
         },
@@ -232,7 +234,7 @@ module.exports = function(grunt) {
                     src: [
                         '*.{ico,txt}',
                         'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/{,*/}*.*',
+                        // 'styles/fonts/{,*/}*.*',
                         'app/!config.js',
                         'app/!index.html'
                     ]
@@ -406,7 +408,7 @@ module.exports = function(grunt) {
         // 'concat',
         // 'cssmin',
         // 'uglify',
-        'copy:dist',
+        // 'copy:dist',
         // 'rev',
         // 'usemin',
         // 'filetransform:cshtml',
