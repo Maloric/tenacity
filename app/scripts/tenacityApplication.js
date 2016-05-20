@@ -57,7 +57,9 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
 
                 clearInterval(this.timestampUpdateInterval);
 
-                // TODO: Pass in custom destroy callback
+                if(opts.destroyCallback) {
+                    opts.destroyCallback();
+                }
             };
 
             this.updateTimes = function() {

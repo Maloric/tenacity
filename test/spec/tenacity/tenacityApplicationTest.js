@@ -18,6 +18,7 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                     };
 
                     this.initCallbackSpy = sinon.spy();
+                    this.destroyCallbackSpy = sinon.spy();
 
                     this.opts = {
                         apiManager: function() {
@@ -32,7 +33,8 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                         templates: {
                             MyCustomTemplate: this.customTemplate
                         },
-                        initCallback: this.initCallbackSpy
+                        initCallback: this.initCallbackSpy,
+                        destroyCallback: this.destroyCallbackSpy
                     };
                     this.unit = new Tenacity.App(this.opts);
                 });
@@ -56,6 +58,11 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
 
                 it('should call the initCallback if supplied', function() {
                     sinon.assert.calledOnce(this.initCallbackSpy);
+                });
+
+                it('should call the destroyCallback if supplied and destroy is called', function() {
+                    this.unit.destroy();
+                    sinon.assert.calledOnce(this.destroyCallbackSpy);
                 });
 
                 it('should modify the Templates list to include any custom templates', function() {
