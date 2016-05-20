@@ -1,7 +1,7 @@
 {
     "name": "tenacity",
     "description": "Javascript framework built on top of Backbone.js",
-    "main": "app/scripts/tenacity.js",
+    "main": "dist/tenacity.js",
     "moduleType": "amd",
     "license": "MIT",
     "ignore": [],
