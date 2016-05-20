@@ -1,24 +1,33 @@
 {
-  "name": "tenacity",
-  "version": "0.1.0",
-  "main": "app/scripts/main.js",
-  "ignore": [],
-  "dependencies": {
-    "jquery": "~2.1.0",
-    "lodash": "~4.0.0",
-    "backbone": "~1.2.3",
-    "requirejs": "~2.1.10",
-    "requirejs-text": "~2.0.10",
-    "modernizr": "~2.7.1",
-    "almond": "~0.3.1",
-    "bootstrap": "~3.3.5",
-    "font-awesome": "~4.4.0",
-    "signalr": "~2.2.0",
-    "moment": "~2.10.6",
-    "toastr": "~2.1.2",
-    "backbone-deep-model": "~0.10.4",
-    "jquery-ui": "jqueryui#~1.11.4",
-    "ace-builds": "~1.2.3",
-    "ace": "~1.2.3"
-  }
+    "name": "tenacity",
+    "description": "Javascript framework built on top of Backbone.js",
+    "main": "app/scripts/tenacity.js",
+    "moduleType": "amd",
+    "license": "MIT",
+    "ignore": [],
+    "authors": [{
+        "name": "Jamie Morris",
+        "email": "jamie@maloric.com",
+        "homepage": "http://github.com/maloric"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Maloric/tenacity.git"
+    },
+    "dependencies": {
+        "jquery": "~2.1.0",
+        "lodash": "~4.0.0",
+        "backbone": "~1.2.3",
+        "requirejs": "~2.1.10",
+        "requirejs-text": "~2.0.10",
+        "modernizr": "~2.7.1",
+        "almond": "~0.3.1",
+        "bootstrap": "~3.3.5",
+        "font-awesome": "~4.4.0",
+        "moment": "~2.10.6",
+        "backbone-deep-model": "~0.10.4",
+        "jquery-ui": "jqueryui#~1.11.4",
+        "ace-builds": "~1.2.3",
+        "ace": "~1.2.3"
+    }
 }

@@ -177,12 +177,12 @@ module.exports = function(grunt) {
                 }
             }
         },
-        useminPrepare: {
-            html: '<%= yeoman.app %>/index.html',
-            options: {
-                dest: '<%= yeoman.dist %>'
-            }
-        },
+        // useminPrepare: {
+        //     html: '<%= yeoman.app %>/index.html',
+        //     options: {
+        //         dest: '<%= yeoman.dist %>'
+        //     }
+        // },
         usemin: {
             html: ['<%= yeoman.dist %>/{,*/}*.html'],
             css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
@@ -399,17 +399,17 @@ module.exports = function(grunt) {
         'clean:dist',
         'jst',
         'less',
-        'useminPrepare',
+        // 'useminPrepare',
         'requirejs',
         // 'imagemin',
         // 'htmlmin',
-        'concat',
-        'cssmin',
-        'uglify',
+        // 'concat',
+        // 'cssmin',
+        // 'uglify',
         'copy:dist',
-        'rev',
-        'usemin',
-        'filetransform:cshtml',
-        'clean:html'
+        // 'rev',
+        // 'usemin',
+        // 'filetransform:cshtml',
+        // 'clean:html'
     ]);
 };
