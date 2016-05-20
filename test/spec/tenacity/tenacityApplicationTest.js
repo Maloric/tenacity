@@ -17,6 +17,8 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                         return 'my template string';
                     };
 
+                    this.initCallbackSpy = sinon.spy();
+
                     this.opts = {
                         apiManager: function() {
                             return self.apiManager;
@@ -29,7 +31,8 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                         },
                         templates: {
                             MyCustomTemplate: this.customTemplate
-                        }
+                        },
+                        initCallback: this.initCallbackSpy
                     };
                     this.unit = new Tenacity.App(this.opts);
                 });
@@ -49,6 +52,10 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
 
                 it('should modify the Events list to include any custom events', function() {
                     expect(Events.MyCustomEvent).to.equal('event.name.space');
+                });
+
+                it('should call the initCallback if supplied', function() {
+                    sinon.assert.calledOnce(this.initCallbackSpy);
                 });
 
                 it('should modify the Templates list to include any custom templates', function() {

@@ -24,10 +24,9 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
 
                 this.apiManager = new ApiManager();
 
-                // TODO: Pass in custom init callback
-                // ga('create', Config.get('googleAnalyticsKey'), {
-                //     'cookieDomain': 'none'
-                // });
+                if (opts.initCallback) {
+                    opts.initCallback();
+                }
 
                 this.timestampUpdateInterval = setInterval(function() {
                     self.updateTimes(self);
