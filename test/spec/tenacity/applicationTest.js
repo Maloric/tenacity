@@ -1,7 +1,7 @@
 'use strict';
 define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
     function(Tenacity, $, Moment, Events, Templates) {
-        testSetup('Tenacity Application', function() {
+        testSetup('Application', function() {
             describe('when an application is instantiated', function() {
                 beforeEach(function() {
                     this.hideAllSpy = sinon.spy();

@@ -153,7 +153,7 @@ module.exports = function(grunt) {
         },
         clean: {
             dist: ['.tmp', '<%= yeoman.dist %>/*'],
-            server: ['.tmp', 'coverage', 'junit', '<%= yeoman.dist %>/*'],
+            server: ['.tmp', 'coverage', 'junit', '<%= yeoman.dist %>/*']
         },
         eslint: {
             options: {},
@@ -169,9 +169,9 @@ module.exports = function(grunt) {
                 options: {
                     baseUrl: './app/bower_components',
                     mainConfigFile: './app/scripts/common.js',
-                    include: ['../scripts/main'],
+                    include: ['../scripts/tenacity'],
                     name: 'almond/almond',
-                    out: 'dist/scripts/main.js',
+                    out: 'dist/scripts/tenacity.js',
                     findNestedDependencies: true,
                     wrap: true
                 }
@@ -296,7 +296,7 @@ module.exports = function(grunt) {
         },
         bower: {
             all: {
-                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+                rjsConfig: '<%= yeoman.app %>/scripts/tenacity.js'
             }
         },
         jst: {
@@ -305,7 +305,7 @@ module.exports = function(grunt) {
             },
             compile: {
                 files: {
-                    '<%= yeoman.app %>/scripts/templates.js': ['<%= yeoman.app %>/scripts/templates/**/*.ejs', '<%= yeoman.app %>/scripts/tenacity/templates/**/*.ejs']
+                    '<%= yeoman.app %>/scripts/templates.js': ['<%= yeoman.app %>/scripts/tenacity/templates/**/*.ejs']
                 },
                 options: {
                     templateSettings: {
@@ -324,6 +324,36 @@ module.exports = function(grunt) {
                         '/styles/fonts/{,*/}*.*'
                     ]
                 }
+            }
+        },
+        // htmlmin: {
+        //     dist: {
+        //         files: [{
+        //             expand: true,
+        //             cwd: '<%= yeoman.app %>',
+        //             src: '*.html',
+        //             dest: '<%= yeoman.dist %>'
+        //         }]
+        //     }
+        // },
+        githooks: {
+            all: {
+                'pre-commit': 'test'
+            }
+        },
+        concat: {
+            options: {
+                sourceMap: true
+            }
+        },
+
+        uglify: {
+            options: {
+                sourceMap: true,
+                sourceMapIn: function(uglifySource) {
+                    return uglifySource + '.map';
+                },
+                sourceMapIncludeSources: true
             }
         }
     });
@@ -371,6 +401,8 @@ module.exports = function(grunt) {
         'less',
         'useminPrepare',
         'requirejs',
+        // 'imagemin',
+        // 'htmlmin',
         'concat',
         'cssmin',
         'uglify',

@@ -70,9 +70,7 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
                 });
             };
 
-
             this.init(opts);
-
         };
         return tenacityApplication;
     });

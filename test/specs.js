@@ -8,5 +8,5 @@ define([
     '/base/test/spec/tenacity/utilsTest.js',
     '/base/test/spec/tenacity/debugTest.js',
     '/base/test/spec/tenacity/debugEventTest.js',
-    '/base/test/spec/tenacity/tenacityApplicationTest.js'
+    '/base/test/spec/tenacity/applicationTest.js'
 ]);

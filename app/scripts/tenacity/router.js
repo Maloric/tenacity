@@ -44,9 +44,6 @@ define(['jquery', 'underscore', 'backbone', 'pubsub', 'events', 'config'],
                     trigger: trigger,
                     replace: replace
                 });
-
-                // TODO: Make tracking of URLs configurable
-                // ga('send', 'event', 'pageView', url);
             },
             buildAppPaths: function() {
                 this.on('route', function() {

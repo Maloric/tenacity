@@ -12,6 +12,7 @@ requirejs.config({
 
         // Tenacity
         'tenacity'                  :   '../scripts/tenacity',
+        'application'               :   '../scripts/tenacity/application',
         'router'                    :   '../scripts/tenacity/router',
         'pubsub'                    :   '../scripts/tenacity/pubsub',
         'baseView'                  :   '../scripts/tenacity/views/baseView',
@@ -23,9 +24,8 @@ requirejs.config({
         'config'                    :   '../scripts/tenacity/config',
         'renderer'                  :   '../scripts/tenacity/renderer',
         'utils'                     :   '../scripts/tenacity/utils',
-        'templates'                 :   '../scripts/templates',
+        'templates'                 :   '../scripts/templates'
 
-        'tenacityApplication'       :   '../scripts/tenacityApplication'
     },
     shim: {
         deepModel: {
