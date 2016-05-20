@@ -1,0 +1,20 @@
+<li class="event">
+    <div class="title">
+        <span event-name><%= model.get('shortEventName') || model.get('event')  %></span>
+        <span date></span>
+        <% if (model.get('data').length > 0) { %>
+            <span event-args-small><%= JSON.stringify(model.get('data')) %></span>
+        <% } %>
+    </div>
+    <div class="buttons">
+        <button type="button" edit title="Edit"><i class="fa fa-pencil"></i></button>
+        <button type="button" replay title="Replay"><i class="fa fa-retweet"></i></button>
+    </div>
+    <div class="content">
+        <label>Data:</label>
+        <pre event-args><%= JSON.stringify(model.get('data'), null, 2) %></pre>
+
+        <label>Stacktrace:</label>
+        <pre stack-trace><%= JSON.stringify(model.get('stack'), null, 2) %></pre>
+    </div>
+</li>

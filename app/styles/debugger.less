@@ -1,0 +1,125 @@
+@border: 1px solid #EEE;
+@spacing: 10px;
+#tenacityDebuggerPageWrap {
+    left:500px;
+}
+#tenacityDebugger {
+    background: #AEBAC0;
+    border-right: @border;
+    padding: @spacing;
+    margin: 0;
+    min-width:250px;
+    z-index: 101;
+    [filter] {
+        margin: 0 0 @spacing;
+    }
+    .events {
+        position:absolute;
+        top: 80px + @spacing;
+        bottom: @spacing;
+        left:@spacing;
+        right:@spacing;
+        max-height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        margin:0;
+        padding:0 @spacing 0 0;
+        .bookmark {
+            // .btn-xs;
+            // .btn-info;
+            margin: 0 0 @spacing;
+            list-style: none;
+            min-height:10px;
+
+            &:last-child {
+                margin-bottom:0;
+            }
+
+            &.edit {
+                padding:@spacing;
+
+                input[type="text"] {
+                    display: inline-block;
+                    margin: 0;
+                    &:before {
+                        content:'';
+                    }
+                }
+            }
+        }
+        .event {
+            background:#FFF;
+            border: @border;
+            list-style: none;
+            padding:@spacing;
+            margin: 0 0 @spacing;
+            position:relative;
+            .title {
+                cursor:pointer;
+            }
+            .buttons {
+                position:absolute;
+                top:@spacing;
+                right:@spacing;
+            }
+            [date] {
+                font-style: italic;
+                font-size: 0.9em;
+                display:block;
+            }
+            [event-args-small] {
+                font-style: italic;
+                font-size: 0.9em;
+                display:block;
+                white-space: nowrap;
+                width: 100%;
+                overflow: hidden;
+            }
+            .content {
+                margin-top:@spacing;
+            }
+
+            &:last-child {
+                margin-bottom:0;
+            }
+
+            &.open {
+                [event-args-small] {
+                    display:none;
+                }
+            }
+        }
+    }
+
+    .export, .import {
+        position:absolute;
+        box-sizing: border-box;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        padding:@spacing;
+        background:rgba(0,0,0,0.5);
+
+        .close {
+            position:absolute;
+            top:@spacing*2;
+            right:@spacing*2;
+            z-index:101;
+        }
+
+        .ace_editor {
+            position:absolute;
+            top:@spacing;
+            right:@spacing;
+            bottom:30px + @spacing;
+            left:@spacing;
+        }
+
+        [import] {
+            position:absolute;
+            right:@spacing;
+            bottom:@spacing;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+<input type="text" class="form-control" placeholder="(filter events)" filter />
+<button type="button" clear class="btn btn-danger btn-xs">Clear</button>
+<button type="button" bookmark class="btn btn-info btn-xs">Bookmark</button>
+<button type="button" export class="btn btn-warning btn-xs">Export</button>
+<button type="button" show-import class="btn btn-warning btn-xs">Import</button>
+<ul class="events">
+</ul>
+<div class="export">
+    <button class="close" title="close"><i class="fa fa-times"></i></button>
+    <pre class="value"></pre>
+</div>
+<div class="import">
+    <button class="close" title="close"><i class="fa fa-times"></i></button>
+    <textarea id="importEvents" class="value form-control"></textarea>
+    <button type="button" import class="btn btn-warning btn-sm">Import</button>
+</div>

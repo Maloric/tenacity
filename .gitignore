@@ -1,0 +1,10 @@
+node_modules
+dist
+app/bower_components
+.tmp
+app/scripts/templates.js
+coverage
+cobertura
+junit
+app/styles/main.css
+.vscode

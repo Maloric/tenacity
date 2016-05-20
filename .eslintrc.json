@@ -1,0 +1,29 @@
+{
+    "root": true,
+    "extends": "eslint:recommended",
+    "plugins": [
+        "requirejs"
+    ],
+    "env": {
+        "browser": true,
+        "amd": true
+    },
+    "rules": {
+        "semi": ["error", "always"],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "quotes": ["error", "single"],
+        "requirejs/no-invalid-define": "error",
+        "requirejs/no-invalid-require": "error",
+        "requirejs/no-multiple-define": "error",
+        "requirejs/no-assign-exports": "error",
+        "requirejs/no-js-extension": "error",
+
+        "requirejs/no-named-define": "error",
+        "requirejs/no-commonjs-wrapper": "error",
+        "requirejs/no-object-define": "error",
+
+        "requirejs/no-dynamic-require": "error",
+        "requirejs/no-conditional-require": "error"
+    },
+    "globals": {}
+}

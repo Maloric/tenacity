@@ -1,0 +1,25 @@
+{
+    "plugins": [
+        "chai-expect",
+        "mocha"
+    ],
+    "env": {
+        "mocha": true
+    },
+    "rules": {
+        "chai-expect/no-inner-compare": "error",
+        "chai-expect/missing-assertion": "error",
+        "chai-expect/terminating-properties": "error",
+        "mocha/handle-done-callback": "error",
+        "mocha/no-exclusive-tests": "error",
+        "mocha/no-skipped-tests": "warn",
+        "mocha/no-pending-tests": "error",
+        "mocha/handle-done-callback": "error",
+        "mocha/no-global-tests": "error"
+    },
+    "globals": {
+        "expect": false,
+        "sinon": false,
+        "testSetup": false
+    }
+}
