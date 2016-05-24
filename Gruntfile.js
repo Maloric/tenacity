@@ -80,24 +80,24 @@ module.exports = function(grunt) {
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: '0.0.0.0'
             },
-            livereload: {
-                options: {
-                    open: true,
-                    base: [
-                        '<%= yeoman.app %>'
-                    ],
-                    middleware: function(connect, options) {
-                        var middlewares = [];
-
-                        middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]'])); // Matches everything that does not contain a '.' (period)
-                        options.base.forEach(function(base) {
-                            middlewares.push(mountFolder(connect, base));
-                        });
-                        middlewares.push(lrSnippet);
-                        return middlewares;
-                    }
-                }
-            },
+            // livereload: {
+            //     options: {
+            //         open: true,
+            //         base: [
+            //             '<%= yeoman.app %>'
+            //         ],
+            //         middleware: function(connect, options) {
+            //             var middlewares = [];
+            //
+            //             middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]'])); // Matches everything that does not contain a '.' (period)
+            //             options.base.forEach(function(base) {
+            //                 middlewares.push(mountFolder(connect, base));
+            //             });
+            //             middlewares.push(lrSnippet);
+            //             return middlewares;
+            //         }
+            //     }
+            // },
             test: {
                 options: {
                     port: 9001,
@@ -163,21 +163,6 @@ module.exports = function(grunt) {
                 '!<%= yeoman.app %>/scripts/templates.js',
                 'test/spec/{,*/}*.js'
             ]
-        },
-        requirejs: {
-            compile: {
-                options: {
-                    baseUrl: './app/bower_components',
-                    mainConfigFile: './app/scripts/common.js',
-                    include: ['../scripts/tenacity'],
-                    exclude: ['jquery', 'backbone', 'underscore', 'moment', 'deepModel', 'ace'],
-                    // name: 'almond/almond',
-                    out: 'dist/tenacity.js',
-                    findNestedDependencies: true,
-                    wrap: true,
-                    optimize:'none'
-                }
-            }
         },
         // useminPrepare: {
         //     html: '<%= yeoman.app %>/index.html',
@@ -357,6 +342,34 @@ module.exports = function(grunt) {
                 },
                 sourceMapIncludeSources: true
             }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: './app/scripts',
+                    mainConfigFile: './app/scripts/common.js',
+                    include: ['tenacity'],
+                    // exclude: ['jquery', 'backbone', 'underscore'],
+                    name: '../bower_components/almond/almond',
+                    out: 'dist/tenacity.js',
+                    paths: {
+                        'jquery': 'stubs/jquery',
+                        'backbone': 'stubs/backbone',
+                        'underscore': 'stubs/underscore'
+                        // 'moment': 'empty:',
+                        // 'deepModel': 'empty:',
+                        // 'ace': 'empty:'
+                    },
+                    findNestedDependencies: true,
+                    cjsTranslate: true,
+                    namespace: 'requacity',
+                    wrap: {
+                        startFile: 'wrap-start.frag',
+                        endFile: 'wrap-end.frag'
+                    },
+                    optimize: 'none'
+                }
+            }
         }
     });
 
@@ -366,7 +379,7 @@ module.exports = function(grunt) {
             'clean:server',
             'jst',
             'less',
-            'connect:livereload',
+            // 'connect:livereload',
             'connect:coverage',
             'concurrent:target'
         ]);
@@ -399,8 +412,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'jst',
-        'less',
+        // 'jst',
+        // 'less',
         // 'useminPrepare',
         'requirejs',
         // 'imagemin',

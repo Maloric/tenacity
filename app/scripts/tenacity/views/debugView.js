@@ -1,5 +1,5 @@
 'use strict';
-define(['backbone', 'underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubsub', 'events', 'jquery-ui/ui/resizable', 'jquery-ui/ui/sortable', 'ace'],
+define(['backbone', 'underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubsub', 'events', '../bower_components/jquery-ui/ui/resizable', '../bower_components/jquery-ui/ui/sortable', 'ace'],
     function(Backbone, _, $, BaseView, BaseModel, DebugEventView, PubSub, Events) {
         var DebugView = BaseView.extend({
             ignoreHideAll: true,

@@ -1,13 +1,13 @@
 require.config({
-    baseUrl: '/base/app/bower_components'
+    baseUrl: '/base/app/scripts'
 });
 require(['../scripts/common'], function() {
     require.config({
-        baseUrl: '/base/app/bower_components',
+        baseUrl: '/base/app/scripts',
         paths: {
             'testSetup': '../../test/helpers/testSetup',
-            'apiManager': '../scripts/helpers/apiManager',
-            'testData': '../scripts/helpers/testData/testData'
+            'apiManager': 'helpers/apiManager',
+            'testData': 'helpers/testData/testData'
         }
     });
 
