@@ -1,5 +1,5 @@
 'use strict';
-define(['backbone', 'tenacity', 'router', 'underscore', 'pubsub', 'events'], function(Backbone, Tenacity, Router, _, PubSub, Events) {
+define(['backbone', 'router', 'underscore', 'pubsub', 'events'], function(Backbone, Router, _, PubSub, Events) {
     var eventExtender = function() {
         this.initialize.apply(this, arguments);
     };
@@ -26,11 +26,11 @@ define(['backbone', 'tenacity', 'router', 'underscore', 'pubsub', 'events'], fun
             PubSub.subscribe(Events.RouteChanged, this.routeChangedHandler);
         },
 
-        registerEvent: function(e) {
-            if (e.indexOf('route:') === -1) {
-                PubSub.subscribe(Events[e] || e, this.createEventHandler(e));
+        registerEvent: function(eventName, prepend) {
+            if (eventName.indexOf('route:') === -1) {
+                PubSub.subscribe(Events[eventName] || eventName, this.createEventHandler(eventName), prepend);
             } else {
-                this.createEventHandler(e);
+                this.createEventHandler(eventName);
             }
         },
 
@@ -38,10 +38,6 @@ define(['backbone', 'tenacity', 'router', 'underscore', 'pubsub', 'events'], fun
             var handlerName = this.events[eventName];
             this.eventHandlers[eventName] = this[handlerName];
             return this[handlerName];
-            // var self = this;
-            // return function() {
-            //     self[handlerName].apply(self, arguments);
-            // };
         },
 
         unregisterEvents: function() {

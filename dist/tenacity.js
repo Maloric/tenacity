@@ -669,7 +669,7 @@ requacity.define('router',['jquery', 'underscore', 'backbone', 'pubsub', 'events
     });
 
 
-requacity.define('eventExtender',['backbone', 'tenacity', 'router', 'underscore', 'pubsub', 'events'], function(Backbone, Tenacity, Router, _, PubSub, Events) {
+requacity.define('eventExtender',['backbone', 'router', 'underscore', 'pubsub', 'events'], function(Backbone, Router, _, PubSub, Events) {
     var eventExtender = function() {
         this.initialize.apply(this, arguments);
     };
@@ -696,11 +696,11 @@ requacity.define('eventExtender',['backbone', 'tenacity', 'router', 'underscore'
             PubSub.subscribe(Events.RouteChanged, this.routeChangedHandler);
         },
 
-        registerEvent: function(e) {
-            if (e.indexOf('route:') === -1) {
-                PubSub.subscribe(Events[e] || e, this.createEventHandler(e));
+        registerEvent: function(eventName, prepend) {
+            if (eventName.indexOf('route:') === -1) {
+                PubSub.subscribe(Events[eventName] || eventName, this.createEventHandler(eventName), prepend);
             } else {
-                this.createEventHandler(e);
+                this.createEventHandler(eventName);
             }
         },
 
@@ -708,10 +708,6 @@ requacity.define('eventExtender',['backbone', 'tenacity', 'router', 'underscore'
             var handlerName = this.events[eventName];
             this.eventHandlers[eventName] = this[handlerName];
             return this[handlerName];
-            // var self = this;
-            // return function() {
-            //     self[handlerName].apply(self, arguments);
-            // };
         },
 
         unregisterEvents: function() {
