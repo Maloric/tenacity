@@ -18,8 +18,6 @@ define(['backbone', 'baseModel', 'underscore', 'moment', 'config', 'utils', 'tem
             _.Moment = Moment;
             _.Config = Config;
             _.Utils = Utils;
-            //TODO: Allow custom methods to be attached to Underscore in order to be available in templates
-            // _.Translate = TranslationManager.translate;
 
             var model = data;
             if (data && !(model instanceof Backbone.Model)) {

@@ -534,9 +534,18 @@ requacity.define('pubsub',['backbone', 'underscore', 'config', 'events'], functi
                 this.trigger.apply(this, arguments);
             }
         },
-        subscribe: function(eventName, fn) {
+        subscribe: function(eventName, fn, prependEvent) {
+            if (eventName.indexOf(' ') > -1) {
+                return;
+            }
+
             if (eventName !== '*') {
                 this.listenTo(this, eventName, fn);
+            }
+
+            if (prependEvent) {
+                var lastEvent = this._events[eventName].pop();
+                this._events[eventName].unshift(lastEvent);
             }
         },
         unsubscribe: function(obj) {
@@ -585,7 +594,6 @@ requacity.define('pubsub',['backbone', 'underscore', 'config', 'events'], functi
 
     return pubsub;
 });
-
 
 requacity.define('router',['jquery', 'underscore', 'backbone', 'pubsub', 'events', 'config'],
     function($, _, Backbone, PubSub, Events, Config) {
@@ -1260,15 +1268,28 @@ requacity.define('utils/timespan',[], function() {
 });
 
 requacity.define('utils/stringUtils',[], function() {
-    return {
+    var stringUtils = {
         format: function(inputString) {
             for(var i = 1; i < arguments.length; i++) {
                 var arg = arguments[i];
                 inputString = inputString.replace('$' + i, arg);
             }
             return inputString;
+        },
+        capitalizeFirstLetter: function(inputString) {
+            return inputString.charAt(0).toUpperCase() + inputString.slice(1);
         }
     };
+
+    String.prototype.capitalizeFirstLetter = function() {
+        return stringUtils.capitalizeFirstLetter(this);
+    };
+
+    String.prototype.format = function() {
+        return stringUtils.format.apply(this, arguments);
+    };
+
+    return stringUtils;
 });
 
 requacity.define('utils',['backbone', 'utils/timespan', 'utils/stringUtils'], function(Backbone, Timespan, StringUtils) {
@@ -1283,19 +1304,19 @@ this["JST"] = this["JST"] || {};
 
 this["JST"]["app/scripts/tenacity/templates/debugEventView.ejs"] = function(model) {
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-/* istanbul ignore next */ function print() { __p += __j.call(arguments, '') }
+function print() { __p += __j.call(arguments, '') }
 __p += '<li class="event">\r\n    <div class="title">\r\n        <span event-name>' +
-((__t = ( model.get('shortEventName') || model.get('event')  )) == null /* istanbul ignore next */? '' : __t) +
+((__t = ( model.get('shortEventName') || model.get('event')  )) == null ? '' : __t) +
 '</span>\r\n        <span date></span>\r\n        ';
  if (model.get('data').length > 0) { ;
 __p += '\r\n            <span event-args-small>' +
-((__t = ( JSON.stringify(model.get('data')) )) == null /* istanbul ignore next */? '' : __t) +
+((__t = ( JSON.stringify(model.get('data')) )) == null ? '' : __t) +
 '</span>\r\n        ';
  } ;
 __p += '\r\n    </div>\r\n    <div class="buttons">\r\n        <button type="button" edit title="Edit"><i class="fa fa-pencil"></i></button>\r\n        <button type="button" replay title="Replay"><i class="fa fa-retweet"></i></button>\r\n    </div>\r\n    <div class="content">\r\n        <label>Data:</label>\r\n        <pre event-args>' +
-((__t = ( JSON.stringify(model.get('data'), null, 2) )) == null /* istanbul ignore next */? '' : __t) +
+((__t = ( JSON.stringify(model.get('data'), null, 2) )) == null ? '' : __t) +
 '</pre>\r\n\r\n        <label>Stacktrace:</label>\r\n        <pre stack-trace>' +
-((__t = ( JSON.stringify(model.get('stack'), null, 2) )) == null /* istanbul ignore next */? '' : __t) +
+((__t = ( JSON.stringify(model.get('stack'), null, 2) )) == null ? '' : __t) +
 '</pre>\r\n    </div>\r\n</li>';
 return __p
 };
@@ -1329,8 +1350,6 @@ requacity.define('renderer',['backbone', 'baseModel', 'underscore', 'moment', 'c
             _.Moment = Moment;
             _.Config = Config;
             _.Utils = Utils;
-            //TODO: Allow custom methods to be attached to Underscore in order to be available in templates
-            // _.Translate = TranslationManager.translate;
 
             var model = data;
             if (data && !(model instanceof Backbone.Model)) {
@@ -1560,8 +1579,8 @@ requacity.define('application',['pubsub', 'tenacity', 'events', 'templates', 'ro
         return tenacityApplication;
     });
 
-requacity.define('tenacity',['baseView', 'baseModel', 'pubsub', 'events', 'router', 'application', 'utils', 'config', 'templates', 'eventExtender'],
-function(BaseView, BaseModel, PubSub, Events, Router, Application, Utils, Config, Templates, EventExtender) {
+requacity.define('tenacity',['baseView', 'baseModel', 'pubsub', 'events', 'router', 'application', 'utils', 'config', 'templates', 'eventExtender', 'renderer'],
+function(BaseView, BaseModel, PubSub, Events, Router, Application, Utils, Config, Templates, EventExtender, Renderer) {
     return {
         View: BaseView,
         Model: BaseModel,
@@ -1572,7 +1591,8 @@ function(BaseView, BaseModel, PubSub, Events, Router, Application, Utils, Config
         App: Application,
         Utils: Utils,
         Config: Config,
-        Templates: Templates
+        Templates: Templates,
+        Renderer: Renderer
     };
 });
 // wrap-end.frag.js

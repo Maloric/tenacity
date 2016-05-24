@@ -1,6 +1,6 @@
 'use strict';
 define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
-    function(Tenacity, $, Moment, Events, Templates) {
+    function(Tenacity, $, Moment) {
         testSetup('Application', function() {
             describe('when an application is instantiated', function() {
                 beforeEach(function() {
@@ -57,7 +57,7 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                     this.unit.destroy();
                     sinon.assert.calledOnce(this.destroyCallbackSpy);
                 });
-                
+
                 it('should publish a HideAll method', function() {
                     sinon.assert.calledOnce(this.hideAllSpy);
                 });

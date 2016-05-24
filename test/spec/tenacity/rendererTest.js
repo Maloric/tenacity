@@ -12,7 +12,7 @@ define(['backbone', 'jquery', 'pubsub', 'events', 'renderer'],
                 expect(res).to.equal('this should render');
             });
 
-            it.only('will prefer any templates attached to window.tenacityTemplates', function() {
+            it('will prefer any templates attached to window.tenacityTemplates', function() {
                 var templateKey = 'app/scripts/tenacity/templates/debugEventView.ejs';
                 var expected = 'this is my template output';
                 window.tenacityTemplates = {};
@@ -22,6 +22,8 @@ define(['backbone', 'jquery', 'pubsub', 'events', 'renderer'],
 
                 var res = Renderer.render(templateKey);
                 expect(res).to.equal(expected);
+
+                delete window.tenacityTemplates[templateKey];
             });
         });
     });

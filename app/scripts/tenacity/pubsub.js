@@ -11,9 +11,18 @@ define(['backbone', 'underscore', 'config', 'events'], function(Backbone, _, Con
                 this.trigger.apply(this, arguments);
             }
         },
-        subscribe: function(eventName, fn) {
+        subscribe: function(eventName, fn, prependEvent) {
+            if (eventName.indexOf(' ') > -1) {
+                return;
+            }
+
             if (eventName !== '*') {
                 this.listenTo(this, eventName, fn);
+            }
+
+            if (prependEvent) {
+                var lastEvent = this._events[eventName].pop();
+                this._events[eventName].unshift(lastEvent);
             }
         },
         unsubscribe: function(obj) {
