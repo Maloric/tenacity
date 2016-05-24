@@ -8,12 +8,6 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
 
                 var ApiManager = opts.useFakeApiManager ? opts.fakeApiManager : opts.apiManager;
 
-                var templateKeys = Object.keys(opts.templates);
-                for(var n = 0; n < templateKeys.length; n++) {
-                    var templateKey = templateKeys[n];
-                    Templates[templateKey] = opts.templates[templateKey];
-                }
-
                 PubSub.publish(Events.HideAll);
 
                 this.apiManager = new ApiManager();

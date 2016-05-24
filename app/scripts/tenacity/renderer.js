@@ -4,7 +4,11 @@ define(['backbone', 'baseModel', 'underscore', 'moment', 'config', 'utils', 'tem
         render: function(template, data, force) {
             var templateFn;
 
-            templateFn = t[template];
+            if (window.tenacityTemplates && window.tenacityTemplates[template]) {
+                templateFn = window.tenacityTemplates[template];
+            } else {
+                templateFn = t[template];
+            }
 
             if (!templateFn && !force) {
                 var templateName = template.replace('.ejs', '').substring(template.lastIndexOf('/') + 1);

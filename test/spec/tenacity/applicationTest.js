@@ -57,11 +57,7 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                     this.unit.destroy();
                     sinon.assert.calledOnce(this.destroyCallbackSpy);
                 });
-
-                it('should modify the Templates list to include any custom templates', function() {
-                    expect(Templates.MyCustomTemplate).to.equal(this.customTemplate);
-                });
-
+                
                 it('should publish a HideAll method', function() {
                     sinon.assert.calledOnce(this.hideAllSpy);
                 });
