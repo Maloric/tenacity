@@ -11,8 +11,6 @@ var mountFolder = function(connect, dir) {
     return serveStatic(require('path').resolve(dir));
 };
 
-var modRewrite = require('connect-modrewrite');
-
 module.exports = function(grunt) {
     // show elapsed time at the end
     require('time-grunt')(grunt);
@@ -415,7 +413,7 @@ module.exports = function(grunt) {
         // 'jst',
         // 'less',
         // 'useminPrepare',
-        'requirejs',
+        'requirejs'
         // 'imagemin',
         // 'htmlmin',
         // 'concat',

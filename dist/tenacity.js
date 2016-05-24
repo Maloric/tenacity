@@ -506,13 +506,18 @@ requacity.define('config',['underscore'], function(_) {
 });
 
 
-requacity.define('events',[], function() {
-    var events = {
+requacity.define('events',['underscore'], function(_) {
+    var baseEvents = {
         'HideAll': 'avius.tenacity.hideAll',
 
         'Navigate': 'avius.tenacity.router.navigate',
         'RouteChanged': 'avius.tenacity.router.changed'
     };
+
+    var events = baseEvents;
+    if (window.tenacityEvents) {
+        events = _.extend(baseEvents, window.tenacityEvents);
+    }
     return events;
 });
 
@@ -1495,12 +1500,6 @@ requacity.define('application',['pubsub', 'tenacity', 'events', 'templates', 'ro
             this.init = function(opts) {
 
                 var ApiManager = opts.useFakeApiManager ? opts.fakeApiManager : opts.apiManager;
-
-                var eventKeys = Object.keys(opts.events);
-                for(var i = 0; i < eventKeys.length; i++) {
-                    var eventName = eventKeys[i];
-                    Events[eventName] = opts.events[eventName];
-                }
 
                 var templateKeys = Object.keys(opts.templates);
                 for(var n = 0; n < templateKeys.length; n++) {

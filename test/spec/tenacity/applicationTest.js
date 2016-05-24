@@ -27,9 +27,6 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
                         fakeApiManager: function() {
                             return self.fakeApiManager;
                         },
-                        events: {
-                            MyCustomEvent: 'event.name.space'
-                        },
                         templates: {
                             MyCustomTemplate: this.customTemplate
                         },
@@ -50,10 +47,6 @@ define(['tenacity', 'jquery', 'moment', 'events', 'templates'],
 
                     expect(this.unit.apiManager).to.not.equal(undefined, 'Api Manager was set');
                     expect(this.unit.apiManager.isFake).to.equal(true, 'Fake Api Manager was used');
-                });
-
-                it('should modify the Events list to include any custom events', function() {
-                    expect(Events.MyCustomEvent).to.equal('event.name.space');
                 });
 
                 it('should call the initCallback if supplied', function() {
