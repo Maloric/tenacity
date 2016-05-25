@@ -9,6 +9,7 @@ requirejs.config({
         'moment'                    :   '../bower_components/moment/min/moment.min',
         'deepModel'                 :   '../bower_components/backbone-deep-model/distribution/deep-model',
         'ace'                       :   '../bower_components/ace-builds/src-noconflict/ace',
+        'ace-mode-json'             :   '../bower_components/ace-builds/src-noconflict/mode-json',
 
         // Tenacity
         'tenacity'                  :   'tenacity',
@@ -31,6 +32,9 @@ requirejs.config({
         deepModel: {
             deps: ['backbone', 'underscore'],
             exports: 'deepModel'
+        },
+        'ace-mode-json': {
+            deps: ['ace']
         }
     }
 });

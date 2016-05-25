@@ -13,7 +13,7 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
                 this.apiManager = new ApiManager();
 
                 if (opts.initCallback) {
-                    opts.initCallback();
+                    opts.initCallback.apply(this, arguments);
                 }
 
                 this.timestampUpdateInterval = setInterval(function() {
@@ -35,7 +35,6 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
             };
 
             this.destroy = function() {
-                PubSub.unsubscribe(this.initRouter);
                 if (this.apiManager && this.apiManager.destroy) {
                     this.apiManager.destroy();
                 }
@@ -46,7 +45,7 @@ define(['pubsub', 'tenacity', 'events', 'templates', 'router', 'renderer', 'jque
                 clearInterval(this.timestampUpdateInterval);
 
                 if(opts.destroyCallback) {
-                    opts.destroyCallback();
+                    opts.destroyCallback.apply(this, arguments);
                 }
             };
 
