@@ -2,10 +2,11 @@
 define([], function() {
     var stringUtils = {
         format: function(inputString) {
-            for(var i = 1; i < arguments.length; i++) {
-                var arg = arguments[i];
-                inputString = inputString.replace('$' + i, arg);
-            }
+            var args = arguments;
+            inputString = inputString.replace(/(\$[0-9]+)/g, function(token) {
+                var index = parseInt(token.replace('$', ''));
+                return args[index];
+            });
             return inputString;
         },
         capitalizeFirstLetter: function(inputString) {
@@ -18,7 +19,9 @@ define([], function() {
     };
 
     String.prototype.format = function() {
-        return stringUtils.format.apply(this, arguments);
+        var args = [].slice.call(arguments);
+        args.unshift(this);
+        return stringUtils.format.apply(this, args);
     };
 
     return stringUtils;

@@ -2,17 +2,20 @@
 define(['backbone', 'baseModel', 'underscore', 'moment', 'config', 'utils', 'templates'], function(Backbone, BaseModel, _, Moment, Config, Utils, t) {
     return {
         render: function(template, data, force) {
+            var templateName = template;
             var templateFn;
-
             if (window.tenacityTemplates && window.tenacityTemplates[template]) {
                 templateFn = window.tenacityTemplates[template];
             } else {
                 templateFn = t[template];
             }
 
-            if (!templateFn && !force) {
-                var templateName = template.replace('.ejs', '').substring(template.lastIndexOf('/') + 1);
-                return 'No template found for <em>' + templateName + '</em>';
+            if (!templateFn){
+                if (!force) {
+                    templateName = template.replace('.ejs', '').substring(template.lastIndexOf('/') + 1);
+                    return 'No template found for <em>' + templateName + '</em>';
+                }
+                templateName = 'ad-hoc';
             }
 
             _.Moment = Moment;
@@ -20,15 +23,22 @@ define(['backbone', 'baseModel', 'underscore', 'moment', 'config', 'utils', 'tem
             _.Utils = Utils;
 
             var model = data;
-            if (data && !(model instanceof Backbone.Model)) {
+            if(data && !(model instanceof Backbone.Model)) {
                 model = new BaseModel(data);
             }
 
+            var res;
             if (templateFn) {
-                return templateFn(model);
+                res = templateFn(model);
             } else {
-                return _.template(template)(model);
+                res = _.template(template)(model);
             }
+
+            if(Config.get('debug')) {
+                res = '<!-- Template: $1 -->$2<!-- /Template: $1 -->'.format(templateName, res);
+            }
+
+            return res;
         }
     };
 });

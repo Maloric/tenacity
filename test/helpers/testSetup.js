@@ -20,6 +20,10 @@ define(['jquery', 'pubsub'], function($, PubSub) {
             }
 
             PubSub.stopListening();
+
+            window.tenacityConfig = {
+                debug:false
+            };
         });
     };
 
