@@ -1,7 +1,7 @@
 define([
     // Tenacity
     '/base/test/spec/tenacity/routerTest.js',
-    '/base/test/spec/tenacity/baseViewTest.js',
+    '/base/test/spec/tenacity/baseComponentTest.js',
     '/base/test/spec/tenacity/configTest.js',
     '/base/test/spec/tenacity/pubsubTest.js',
     '/base/test/spec/tenacity/rendererTest.js',

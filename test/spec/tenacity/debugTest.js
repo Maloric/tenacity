@@ -1,22 +1,22 @@
 'use strict';
-define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
-    function(Backbone, DebugView, $, _, PubSub, Events) {
+define(['backbone', 'debugComponent', 'jquery', 'underscore', 'pubsub', 'events'],
+    function(Backbone, DebugComponent, $, _, PubSub, Events) {
         testSetup('Debugger', function() {
             beforeEach(function() {
-                this.unit = new DebugView();
+                this.unit = new DebugComponent();
             });
 
             afterEach(function() {
                 delete window.enableTenacityDebugger;
             });
 
-            it('adds a method to the window object to instantiate the view', function() {
+            it('adds a method to the window object to instantiate the Component', function() {
                 expect(typeof(window.enableTenacityDebugger)).to.equal('function', 'window.enableTenacityDebugger is a function');
 
                 this.unit.destroy();
 
                 this.unit = window.enableTenacityDebugger();
-                expect(window.tenacityDebugger instanceof DebugView).to.equal(true, 'Debugger is attached to window');
+                expect(window.tenacityDebugger instanceof DebugComponent).to.equal(true, 'Debugger is attached to window');
             });
 
             it('appends a container to the body when instatiated', function() {
@@ -26,7 +26,7 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
             });
 
             it('attaches the debugger to the window object', function() {
-                expect(window.tenacityDebugger instanceof DebugView).to.equal(true, 'Debugger is attached to window');
+                expect(window.tenacityDebugger instanceof DebugComponent).to.equal(true, 'Debugger is attached to window');
             });
 
             it('sets the left position on the wrapper to match the initial width', function() {
@@ -37,7 +37,7 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
                 this.unit.destroy();
                 var spy = sinon.spy($.fn, 'sortable');
 
-                this.unit = new DebugView();
+                this.unit = new DebugComponent();
 
                 sinon.assert.calledOnce(spy);
                 sinon.assert.calledWith(spy, {
@@ -82,7 +82,7 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
                     sinon.assert.calledWith(this.scrollSpy, $events[0].scrollHeight);
                 });
 
-                it('should only auto scroll when the current scroll is at the bottom of the view', function() {
+                it('should only auto scroll when the current scroll is at the bottom of the Component', function() {
                     var $events = this.unit.$('.events');
                     $events.css({
                         'height': '30px',
@@ -106,30 +106,30 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
                     });
 
                     it('should remove all events from the list', function() {
-                        expect(this.unit.views.length).to.equal(0);
+                        expect(this.unit.Components.length).to.equal(0);
                         expect(this.unit.$('.event').length).to.equal(0);
                     });
                 });
 
                 describe('and a filter is provided', function() {
                     beforeEach(function() {
-                        this.spy1 = sinon.spy(this.unit.views[0], 'filter');
-                        this.spy2 = sinon.spy(this.unit.views[1], 'filter');
+                        this.spy1 = sinon.spy(this.unit.Components[0], 'filter');
+                        this.spy2 = sinon.spy(this.unit.Components[1], 'filter');
 
                         this.unit.$('[filter]').val('testEventN').trigger('keyup');
                     });
 
-                    it('passes the filter value to the filter function in each child view', function() {
+                    it('passes the filter value to the filter function in each child Component', function() {
                         sinon.assert.calledOnce(this.spy1);
                         sinon.assert.calledOnce(this.spy2);
                     });
 
-                    it('will filter a new view when added', function() {
+                    it('will filter a new Component when added', function() {
                         PubSub.publish('someotherevent');
                         PubSub.publish('testEventName');
 
-                        expect(this.unit.views[2].$el.is(':visible')).to.equal(false, 'First view is hidden');
-                        expect(this.unit.views[3].$el.is(':visible')).to.equal(true, 'Second view is visible');
+                        expect(this.unit.Components[2].$el.is(':visible')).to.equal(false, 'First Component is hidden');
+                        expect(this.unit.Components[3].$el.is(':visible')).to.equal(true, 'Second Component is visible');
                     });
                 });
 
@@ -141,8 +141,8 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
 
                     it('should show a modal with every event in the log represented as json', function() {
                         var events = [];
-                        for (var i = 0; i < this.unit.views.length; i++) {
-                            events.push(this.unit.views[i].model.attributes);
+                        for (var i = 0; i < this.unit.Components.length; i++) {
+                            events.push(this.unit.Components[i].model.attributes);
                         }
                         var expected = JSON.stringify(events, null, 2);
 
@@ -226,12 +226,12 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
 
                 describe('and the edit button is clicked on an event', function() {
                     beforeEach(function() {
-                        this.expectedImportValue = _.cloneDeep([this.unit.views[0].model.attributes]);
+                        this.expectedImportValue = _.cloneDeep([this.unit.Components[0].model.attributes]);
                         delete this.expectedImportValue[0].stack;
                         this.unit.$('.event [edit]').eq(0).trigger('click');
                     });
 
-                    it('should show the import view prepopulated with the event in question', function() {
+                    it('should show the import Component prepopulated with the event in question', function() {
                         var expected = JSON.stringify(this.expectedImportValue, null, 2);
 
                         expect(this.unit.$('.import').is(':visible')).to.equal(true, 'Import modal is visible');
@@ -246,14 +246,14 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
                 });
 
                 it('sets the short event name on the new item', function() {
-                    var model = this.unit.views[0].model;
+                    var model = this.unit.Components[0].model;
                     expect(model).to.not.equal(undefined);
                     var res = model.get('shortEventName');
                     expect(res).to.equal('HideAll', 'Short event name is set');
                 });
             });
 
-            describe('when the user resizes the view', function() {
+            describe('when the user resizes the Component', function() {
                 beforeEach(function() {
                     this.width = Math.floor((Math.random() * 100) + 1);
                     this.unit.$el.css('width', this.width);
@@ -264,7 +264,7 @@ define(['backbone', 'debugView', 'jquery', 'underscore', 'pubsub', 'events'],
                     });
                 });
 
-                it('changes the left position of the body wrapper to match the width of the debug view', function() {
+                it('changes the left position of the body wrapper to match the width of the debug Component', function() {
                     expect($('#tenacityDebuggerPageWrap').css('left')).to.equal(this.width + 'px');
                 });
             });

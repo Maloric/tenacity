@@ -1,13 +1,13 @@
 'use strict';
-define(['backbone', 'debugEventView', 'jquery', 'moment', 'pubsub'],
-    function(Backbone, DebugEventView, $, Moment, PubSub) {
+define(['backbone', 'debugEventComponent', 'jquery', 'moment', 'pubsub'],
+    function(Backbone, DebugEventComponent, $, Moment, PubSub) {
         testSetup('Debugger Event', function() {
             before(function(){
                 $('#content').append('<ul></ul>');
             });
 
             beforeEach(function() {
-                this.unit = new DebugEventView({
+                this.unit = new DebugEventComponent({
                     model: {
                         'event': 'thisIsMyEventName',
                         'data': [
@@ -97,19 +97,19 @@ define(['backbone', 'debugEventView', 'jquery', 'moment', 'pubsub'],
                 });
             });
 
-            it('shows the view if a matching filter is provided (case insensitive)', function() {
+            it('shows the Component if a matching filter is provided (case insensitive)', function() {
                 this.unit.hide();
                 this.unit.filter('THisIsMyEVentN');
                 expect(this.unit.$el.is(':visible')).to.equal(true, 'Event is visible');
             });
 
-            it('hides the view if a non-matching filter is provided', function() {
+            it('hides the Component if a non-matching filter is provided', function() {
                 this.unit.show();
                 this.unit.filter('thisIsNOTMyEventN');
                 expect(this.unit.$el.is(':visible')).to.equal(false, 'Event is visible');
             });
 
-            it('shows the view if a provided filter matches the short event name', function() {
+            it('shows the Component if a provided filter matches the short event name', function() {
                 this.unit.model.set('shortEventName', 'RouteChanged');
                 this.unit.hide();
                 this.unit.filter('RouteCha');

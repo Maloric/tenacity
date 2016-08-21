@@ -1,7 +1,7 @@
 'use strict';
 define(['backbone', 'eventExtender', 'underscore', 'jquery', 'events', 'renderer'],
     function(Backbone, EventExtender, _, $, Events, Renderer) {
-        var baseViewExt = {
+        var baseComponentExt = {
             initialize: function(data) {
                 if (!this.events) {
                     this.events = {};
@@ -11,7 +11,7 @@ define(['backbone', 'eventExtender', 'underscore', 'jquery', 'events', 'renderer
                 } else {
                     delete this.events.HideAll;
                 }
-                this.views = [];
+                this.Components = [];
 
                 if (data && data.model) {
                     if (data.model instanceof Backbone.Model) {
@@ -84,7 +84,7 @@ define(['backbone', 'eventExtender', 'underscore', 'jquery', 'events', 'renderer
                 if ($domElement.size() === 0 && this.$el.is(selector)) {
                     // Backbone already handles normal events,
                     // but this allows the selector to be the
-                    // DOM element the view is attached to.
+                    // DOM element the Component is attached to.
                     this.$el.bind(domEvent, this.createEventHandler(e));
                 }
             },
@@ -93,22 +93,22 @@ define(['backbone', 'eventExtender', 'underscore', 'jquery', 'events', 'renderer
                 return Renderer.render(this.template, attributes, true);
             },
 
-            getDom: function(view) {
-                if (!view) {
-                    view = this;
+            getDom: function(Component) {
+                if (!Component) {
+                    Component = this;
                 }
-                return view.el;
+                return Component.el;
             },
 
-            destroyViews: function() {
-                _.invoke(this.views, 'destroy');
-                this.views = [];
+            destroyComponents: function() {
+                _.invoke(this.Components, 'destroy');
+                this.Components = [];
             },
 
             destroy: function() {
                 this.unregisterEvents();
                 this.undelegateEvents();
-                this.destroyViews();
+                this.destroyComponents();
                 this.$el.removeData().unbind();
                 this.remove();
 
@@ -141,9 +141,9 @@ define(['backbone', 'eventExtender', 'underscore', 'jquery', 'events', 'renderer
             }
         };
 
-        var baseView = Backbone.View.extend(baseViewExt);
-        baseView.prototype = _.create(EventExtender.prototype, Backbone.View.prototype);
-        baseView.prototype = _.create(baseView.prototype, baseViewExt);
+        var baseComponent = Backbone.View.extend(baseComponentExt);
+        baseComponent.prototype = _.create(EventExtender.prototype, Backbone.View.prototype);
+        baseComponent.prototype = _.create(baseComponent.prototype, baseComponentExt);
 
-        return baseView;
+        return baseComponent;
     });

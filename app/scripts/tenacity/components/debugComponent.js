@@ -1,9 +1,9 @@
 'use strict';
-define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubsub', 'events', '../bower_components/jquery-ui/ui/resizable', '../bower_components/jquery-ui/ui/sortable', 'ace', 'ace-mode-json'],
-    function(_, $, BaseView, BaseModel, DebugEventView, PubSub, Events) {
-        var DebugView = BaseView.extend({
+define(['underscore', 'jquery', 'baseComponent', 'baseModel', 'debugEventComponent', 'pubsub', 'events', '../bower_components/jquery-ui/ui/resizable', '../bower_components/jquery-ui/ui/sortable', 'ace', 'ace-mode-json'],
+    function(_, $, BaseComponent, BaseModel, DebugEventComponent, PubSub, Events) {
+        var DebugComponent = BaseComponent.extend({
             ignoreHideAll: true,
-            template: 'app/scripts/tenacity/templates/debugView.ejs',
+            template: 'app/scripts/tenacity/templates/debugComponent.ejs',
             events: {
                 'all': 'appendEvent',
                 'keyup [filter]': 'filter',
@@ -41,8 +41,8 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
                 });
 
                 this.setElement('#tenacityDebugger');
-                this.views = [];
-                BaseView.prototype.initialize.call(this, {
+                this.Components = [];
+                BaseComponent.prototype.initialize.call(this, {
                     el: '#tenacityDebugger'
                 });
 
@@ -68,15 +68,15 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
             },
 
             appendEvent: function() {
-                var newView = new DebugEventView({
+                var newComponent = new DebugEventComponent({
                     model: PubSub.getData.apply(this, arguments)
                 });
 
-                this.views.push(newView);
-                this.appendItem(this.getDom(newView));
+                this.Components.push(newComponent);
+                this.appendItem(this.getDom(newComponent));
 
                 var filterValue = this.$('[filter]').val();
-                newView.filter(filterValue);
+                newComponent.filter(filterValue);
             },
 
             appendItem: function(el) {
@@ -100,8 +100,8 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
 
             filter: function() {
                 var value = this.$('[filter]').val();
-                _.each(this.views, function(view) {
-                    view.filter(value);
+                _.each(this.Components, function(Component) {
+                    Component.filter(value);
                 });
             },
 
@@ -109,11 +109,11 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
                 $('#tenacityDebuggerPageWrap').children().unwrap();
                 $('body').css('overflow', 'auto');
                 $('#tenacityDebugger').remove();
-                BaseView.prototype.destroy.apply(this, arguments);
+                BaseComponent.prototype.destroy.apply(this, arguments);
             },
 
             clearEvents: function() {
-                this.views = [];
+                this.Components = [];
                 this.$('.events').html('');
             },
 
@@ -139,8 +139,8 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
 
             showExportData: function() {
                 var events = [];
-                for (var i = 0; i < this.views.length; i++) {
-                    events.push(this.views[i].model.attributes);
+                for (var i = 0; i < this.Components.length; i++) {
+                    events.push(this.Components[i].model.attributes);
                 }
                 this.$('.export .value').html(JSON.stringify(events, null, 2));
                 this.$('.export').show();
@@ -196,7 +196,7 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
                 this.showImportData();
                 var $event = $(e.currentTarget).closest('.event');
                 var indexOfEvent = this.$('.event').index($event);
-                var eventData = _.cloneDeep(this.views[indexOfEvent].model.attributes);
+                var eventData = _.cloneDeep(this.Components[indexOfEvent].model.attributes);
                 delete eventData.stack;
 
                 this.editor.setValue(JSON.stringify([eventData], null, 2));
@@ -205,8 +205,8 @@ define(['underscore', 'jquery', 'baseView', 'baseModel', 'debugEventView', 'pubs
         });
 
         window.enableTenacityDebugger = function() {
-            return new DebugView();
+            return new DebugComponent();
         };
 
-        return DebugView;
+        return DebugComponent;
     });

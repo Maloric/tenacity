@@ -1,7 +1,7 @@
-define(['baseView', 'baseModel', 'pubsub', 'events', 'router', 'application', 'utils', 'config', 'templates', 'eventExtender', 'renderer', 'debugView'],
-function(BaseView, BaseModel, PubSub, Events, Router, Application, Utils, Config, Templates, EventExtender, Renderer, DebugView) {
+define(['baseComponent', 'baseModel', 'pubsub', 'events', 'router', 'application', 'utils', 'config', 'templates', 'eventExtender', 'renderer', 'debugComponent'],
+function(BaseComponent, BaseModel, PubSub, Events, Router, Application, Utils, Config, Templates, EventExtender, Renderer, DebugComponent) {
     return {
-        View: BaseView,
+        Component: BaseComponent,
         Model: BaseModel,
         PubSub: PubSub,
         EventExtender: EventExtender,
@@ -12,6 +12,6 @@ function(BaseView, BaseModel, PubSub, Events, Router, Application, Utils, Config
         Config: Config,
         Templates: Templates,
         Renderer: Renderer,
-        DebugView: DebugView
+        DebugComponent: DebugComponent
     };
 });

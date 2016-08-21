@@ -1,16 +1,16 @@
 'use strict';
-define(['backbone', 'underscore', 'jquery', 'baseView', 'moment', 'pubsub'],
-    function(Backbone, _, $, BaseView, Moment, PubSub) {
-        var debugEventView = BaseView.extend({
+define(['backbone', 'underscore', 'jquery', 'baseComponent', 'moment', 'pubsub'],
+    function(Backbone, _, $, BaseComponent, Moment, PubSub) {
+        var debugEventComponent = BaseComponent.extend({
             ignoreHideAll: true,
-            template: 'app/scripts/tenacity/templates/debugEventView.ejs',
+            template: 'app/scripts/tenacity/templates/debugEventComponent.ejs',
             events: {
                 'click .title': 'eventNameClicked',
                 'click [replay]': 'replayEvent'
             },
 
             initialize: function() {
-                BaseView.prototype.initialize.apply(this, arguments);
+                BaseComponent.prototype.initialize.apply(this, arguments);
                 var timestamp = new Moment(Date.now());
                 this.$('[date]').attr('timestamp', timestamp).text(timestamp.format('HH:mm:ss.SSS'));
                 this.$('.content').hide();
@@ -38,5 +38,5 @@ define(['backbone', 'underscore', 'jquery', 'baseView', 'moment', 'pubsub'],
                 PubSub.publish.apply(PubSub, args);
             }
         });
-        return debugEventView;
+        return debugEventComponent;
     });

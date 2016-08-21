@@ -1,10 +1,10 @@
 'use strict';
 
-define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
-    function(Backbone, $, _, PubSub, BaseView, Events) {
-        testSetup('BaseView', function() {
+define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseComponent', 'events'],
+    function(Backbone, $, _, PubSub, BaseComponent, Events) {
+        testSetup('BaseComponent', function() {
             it('can be inherited and a model passed to the template', function() {
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     'template': '<h1><%= get(\'msg\') %></h1>'
                 });
 
@@ -12,7 +12,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     'msg': 'Hello world'
                 });
 
-                this.unit = new ChildView({
+                this.unit = new ChildComponent({
                     model: model,
                     el: '#content'
                 });
@@ -24,7 +24,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 var spy = sinon.spy();
                 PubSub.subscribe('secondEvent', spy);
 
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     events: {
                         'firstEvent': 'firstEventHandler'
                     },
@@ -33,7 +33,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView();
+                this.unit = new ChildComponent();
 
                 PubSub.publish('firstEvent', {
                     'stuff': 'things'
@@ -49,7 +49,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 PubSub.subscribe('event', spy);
 
                 var model = new Backbone.Model({});
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     events: {
                         'click div a.test': 'clickHandler'
                     },
@@ -59,7 +59,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView({
+                this.unit = new ChildComponent({
                     model: model,
                     el: '#content'
                 });
@@ -69,12 +69,12 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 sinon.assert.calledWith(spy, 'myTestData');
             });
 
-            it('should resubscribe to any DOM events if the view is replaced by a call to render when there was no DOM element provided', function() {
+            it('should resubscribe to any DOM events if the Component is replaced by a call to render when there was no DOM element provided', function() {
                 var spy = sinon.spy();
                 PubSub.subscribe('event', spy);
 
                 var model = new Backbone.Model({});
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     events: {
                         'click a.test': 'clickHandler1',
                         'click div.element': 'clickHandler2'
@@ -88,7 +88,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView({
+                this.unit = new ChildComponent({
                     model: model
                 });
 
@@ -105,7 +105,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 var spy = sinon.spy();
                 PubSub.subscribe('secondEvent', spy);
 
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     events: {
                         'route:myTestRoute': 'firstEventHandler'
                     },
@@ -114,7 +114,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView();
+                this.unit = new ChildComponent();
 
                 PubSub.publish(Events.RouteChanged, {
                     route: 'myTestRoute',
@@ -128,8 +128,8 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 });
             });
 
-            it('should hide the view if a non-matching RouteChanged event is published', function() {
-                var ChildView = BaseView.extend({
+            it('should hide the Component if a non-matching RouteChanged event is published', function() {
+                var ChildComponent = BaseComponent.extend({
                     events: {
                         'route:myTestRoute': 'firstEventHandler'
                     },
@@ -138,7 +138,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView();
+                this.unit = new ChildComponent();
                 var hideSpy = sinon.spy(this.unit, 'hide');
 
                 PubSub.publish(Events.RouteChanged, {
@@ -149,8 +149,8 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 sinon.assert.calledOnce(hideSpy);
             });
 
-            it('should NOT hide the view if a non-matching RouteChanged event is published but the view has ignoreHideAll = true', function() {
-                var ChildView = BaseView.extend({
+            it('should NOT hide the Component if a non-matching RouteChanged event is published but the Component has ignoreHideAll = true', function() {
+                var ChildComponent = BaseComponent.extend({
                     ignoreHideAll: true,
                     events: {
                         'route:myTestRoute': 'firstEventHandler'
@@ -160,7 +160,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView();
+                this.unit = new ChildComponent();
                 var hideSpy = sinon.spy(this.unit, 'hide');
 
                 PubSub.publish(Events.RouteChanged, {
@@ -175,7 +175,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 var spy = sinon.spy();
                 PubSub.subscribe('secondEvent', spy);
 
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     events: {
                         'route:myTestRoute': 'firstEventHandler'
                     },
@@ -186,7 +186,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     }
                 });
 
-                this.unit = new ChildView();
+                this.unit = new ChildComponent();
 
                 PubSub.publish(Events.RouteChanged, {
                     route: 'myTestRoute:selected',
@@ -200,7 +200,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 });
             });
 
-            it('should not wrap an inner view with a random div', function() {
+            it('should not wrap an inner Component with a random div', function() {
                 var data = [new Backbone.Model({
                     prop: 'val1'
                 }), new Backbone.Model({
@@ -208,29 +208,29 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 }), new Backbone.Model({
                     prop: 'val3'
                 })];
-                var ChildView = BaseView.extend({
+                var ChildComponent = BaseComponent.extend({
                     'template': '<li><%=get(\'prop\')%></li>'
                 });
 
-                var ParentView = BaseView.extend({
+                var ParentComponent = BaseComponent.extend({
                     events: {
                         'myEvent': 'myHandler'
                     },
                     'template': '<ul></ul>',
                     'myHandler': function(data) {
-                        this.destroyViews();
+                        this.destroyComponents();
                         this.collection = new Backbone.Collection(data);
-                        this.views = this.collection.map(this.createView, this);
-                        this.$el.children('ul').append(_.map(this.views, this.getDom, this));
+                        this.Components = this.collection.map(this.createComponent, this);
+                        this.$el.children('ul').append(_.map(this.Components, this.getDom, this));
                     },
-                    createView: function(model) {
-                        return new ChildView({
+                    createComponent: function(model) {
+                        return new ChildComponent({
                             model: model
                         });
                     }
                 });
 
-                this.unit = new ParentView({
+                this.unit = new ParentComponent({
                     el: '#content'
                 });
 
@@ -240,8 +240,8 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 expect(this.unit.$el.children('ul').children('li').size()).to.equal(3, 'Correct child is added');
             });
 
-            it('should hide a view when the hideAll event is raised', function() {
-                var ChildView = BaseView.extend({
+            it('should hide a Component when the hideAll event is raised', function() {
+                var ChildComponent = BaseComponent.extend({
                     'template': '<h1><%= get(\'msg\') %></h1>'
                 });
 
@@ -249,7 +249,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     'msg': 'Hello world'
                 });
 
-                this.unit = new ChildView({
+                this.unit = new ChildComponent({
                     model: model,
                     el: '#content'
                 });
@@ -261,8 +261,8 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 expect(this.unit.$el.is(':visible')).to.equal(false);
             });
 
-            it('should NOT hide a view when the hideAll event is raised if the view has ignoreHideAll', function() {
-                var ChildView = BaseView.extend({
+            it('should NOT hide a Component when the hideAll event is raised if the Component has ignoreHideAll', function() {
+                var ChildComponent = BaseComponent.extend({
                     ignoreHideAll: true,
                     'template': '<h1><%= get(\'msg\') %></h1>'
                 });
@@ -271,7 +271,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     'msg': 'Hello world'
                 });
 
-                this.unit = new ChildView({
+                this.unit = new ChildComponent({
                     model: model,
                     el: '#content'
                 });
@@ -284,12 +284,12 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 expect(this.unit.$el.is(':visible')).to.equal(true);
             });
 
-            it('should block and unblock the view when the block / unblock method is called', function() {
-                var ChildView = BaseView.extend({
+            it('should block and unblock the Component when the block / unblock method is called', function() {
+                var ChildComponent = BaseComponent.extend({
                     'template': '<div></div>'
                 });
 
-                this.unit = new ChildView({
+                this.unit = new ChildComponent({
                     el: '#content'
                 });
 
@@ -304,7 +304,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
 
             describe('default model', function() {
                 beforeEach(function() {
-                    this.ChildViewWithDefaults = BaseView.extend({
+                    this.ChildComponentWithDefaults = BaseComponent.extend({
                         defaultModel: {
                             testProp1: 'testVal1',
                             testProp2: 'testVal2',
@@ -315,7 +315,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 });
 
                 it('should add a default model if configured and no model was provided', function() {
-                    this.unit = new this.ChildViewWithDefaults();
+                    this.unit = new this.ChildComponentWithDefaults();
                     expect(this.unit.model.get('testProp1')).to.equal('testVal1');
                     expect(this.unit.model.get('testProp2')).to.equal('testVal2');
                     expect(this.unit.model.get('testProp3')).to.equal('testVal3');
@@ -323,7 +323,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 });
 
                 it('should merge a provided model with the default properties', function() {
-                    this.unit = new this.ChildViewWithDefaults({
+                    this.unit = new this.ChildComponentWithDefaults({
                         model: {
                             'testProp2': 'newTestVal2',
                             'testProp4': 'testVal4'
@@ -338,7 +338,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 });
 
                 it('should merge a provided proper model with the default properties', function() {
-                    this.unit = new this.ChildViewWithDefaults({
+                    this.unit = new this.ChildComponentWithDefaults({
                         model: new Backbone.Model({
                             'testProp2': 'newTestVal2',
                             'testProp4': 'testVal4'
@@ -353,20 +353,20 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                 });
 
                 it('should copy default properties rather than modifying them', function() {
-                    this.unit = new this.ChildViewWithDefaults({
+                    this.unit = new this.ChildComponentWithDefaults({
                         model: {
                             testInt: 124
                         }
                     });
                     this.unit.model.set('testInt', 125);
 
-                    expect(this.ChildViewWithDefaults.prototype.defaultModel.testInt).to.equal(123, 'Default value is unchanged');
+                    expect(this.ChildComponentWithDefaults.prototype.defaultModel.testInt).to.equal(123, 'Default value is unchanged');
                 });
             });
 
-            describe('when a view has handlers', function() {
+            describe('when a Component has handlers', function() {
                 beforeEach(function() {
-                    var ChildView = BaseView.extend({
+                    var ChildComponent = BaseComponent.extend({
                         events: {
                             'click div a.test': 'clickHandler',
                             'TestEvent': 'eventHandler',
@@ -378,11 +378,11 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                         'routeHandler': function(){}
                     });
 
-                    this.clickSpy = sinon.spy(ChildView.prototype, 'clickHandler');
-                    this.eventSpy = sinon.spy(ChildView.prototype, 'eventHandler');
-                    this.routeSpy = sinon.spy(ChildView.prototype, 'routeHandler');
+                    this.clickSpy = sinon.spy(ChildComponent.prototype, 'clickHandler');
+                    this.eventSpy = sinon.spy(ChildComponent.prototype, 'eventHandler');
+                    this.routeSpy = sinon.spy(ChildComponent.prototype, 'routeHandler');
 
-                    this.unit = new ChildView({
+                    this.unit = new ChildComponent({
                         el: '#content'
                     });
 
@@ -420,7 +420,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     sinon.assert.calledOnce(this.routeSpy);
                 });
 
-                describe('and the view is destroyed', function() {
+                describe('and the Component is destroyed', function() {
                     beforeEach(function() {
                         this.unit.destroy();
                     });
@@ -444,7 +444,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
 
             describe('routing', function() {
                 beforeEach(function() {
-                    var ChildView = BaseView.extend({
+                    var ChildComponent = BaseComponent.extend({
                         events: {
                             'route:myTestRoute123': 'routeHandler'
                         },
@@ -452,14 +452,14 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                         hide: function() {}
                     });
 
-                    this.unit = new ChildView({
+                    this.unit = new ChildComponent({
                         el: '#content'
                     });
 
                     this.hideSpy = sinon.spy(this.unit, 'hide');
                 });
 
-                it('should call hide when a view does not match the route', function() {
+                it('should call hide when a Component does not match the route', function() {
                     PubSub.publish(Events.RouteChanged, {
                         route:'SOMEOTHERURL',
                         options: [null]
@@ -468,7 +468,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     sinon.assert.calledOnce(this.hideSpy);
                 });
 
-                it('should NOT call hide when a view matches the route', function() {
+                it('should NOT call hide when a Component matches the route', function() {
                     PubSub.publish(Events.RouteChanged, {
                         route:'myTestRoute123',
                         options: [null]
@@ -477,7 +477,7 @@ define(['backbone', 'jquery', 'underscore', 'pubsub', 'baseView', 'events'],
                     sinon.assert.notCalled(this.hideSpy);
                 });
 
-                it('should NOT call hide when a view matches only part of the route', function() {
+                it('should NOT call hide when a Component matches only part of the route', function() {
                     PubSub.publish(Events.RouteChanged, {
                         route:'myTestRoute123:another:level',
                         options: [null]

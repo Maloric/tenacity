@@ -24,7 +24,7 @@ define(['jquery', 'underscore', 'backbone', 'pubsub', 'events', 'config'],
                 route = Backbone.Router.prototype._routeToRegExp.call(this, route);
                 return new RegExp(route.source, 'i');
             },
-            resetViews: function() {
+            resetComponents: function() {
                 PubSub.publish(Events.HideAll);
             },
             destroy: function() {
